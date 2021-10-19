@@ -69,8 +69,26 @@ function updateDirection(event) {
   }
 }
 
+function crossWallRule() {
+  switch(true) {
+    case snake[0].x > 15 * box && direction == "right":
+      snake[0].x = 0;
+      break;
+    case snake[0].x < 0 && direction == "left":
+      snake[0].x = 16 * box;
+      break;
+    case snake[0].y < 0  && direction == "up":
+      snake[0].y = 16 * box;
+      break;
+    case snake[0].y > 15 * box && direction == "down":
+      snake[0].y = 0;
+      break;
+  }
+}
+
 function startGame() {
   createBackground();
+  crossWallRule();
   createSnake();
   moveSnake();
 }
