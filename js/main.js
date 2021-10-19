@@ -4,6 +4,11 @@ let box = 32;
 let snake = [];
 let direction = "right";
 
+let food = {
+  x: Math.floor(Math.random() * 15 + 1) * box,
+  y: Math.floor(Math.random() * 15 + 1) * box,
+}
+
 snake[0] ={
   x: 8 * box,
   y: 8 * box,
@@ -42,7 +47,12 @@ function moveSnake() {
       break;
   }
 
-  snake.pop();
+  if(verifyIfAteFood()) {
+    snake.pop();
+  } else {
+    food.x = Math.floor(Math.random() * 15 + 1) * box;
+    food.y = Math.floor(Math.random() * 15 +1 ) * box;
+  }
 
   let newHead = {
     x: snakeX,
@@ -86,9 +96,20 @@ function crossWallRule() {
   }
 }
 
+function drawFood() {
+  context.fillStyle = "#FF6347";
+  context.fillRect(food.x, food.y, box, box);
+}
+
+function verifyIfAteFood() {
+  if(snake[0].x != food.x || snake[0].y != food.y) return true
+  return false
+}
+
 function startGame() {
   createBackground();
   crossWallRule();
+  drawFood();
   createSnake();
   moveSnake();
 }
